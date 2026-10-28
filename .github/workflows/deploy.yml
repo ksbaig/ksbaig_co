@@ -1,0 +1,68 @@
+name: Deploy KSB Solutions to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production website
+        run: npm run build -- --configuration production --base-href /ksbaig_co/
+
+      - name: Detect browser output
+        id: browser
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t indexes < <(find dist -type f -name index.html)
+          if [ "${#indexes[@]}" -ne 1 ]; then
+            echo "::error::Expected exactly one built index.html under dist, found ${#indexes[@]}. Check angular.json and the build output."
+            exit 1
+          fi
+          directory="$(dirname "${indexes[0]}")"
+          echo "Deploying static website from $directory"
+          echo "path=$directory" >> "$GITHUB_OUTPUT"
+
+      - name: Upload website artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ steps.browser.outputs.path }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy website
+        id: deployment
+        uses: actions/deploy-pages@v5
