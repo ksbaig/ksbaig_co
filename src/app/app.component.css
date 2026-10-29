@@ -76,21 +76,39 @@
 .more-services a { color: var(--ink); font-weight: 600; }
 .more-services a span { color: var(--green); }
 .about-section { padding-block: 58px; background: linear-gradient(115deg, #eaf7e7, #f3fbf7); scroll-margin-top: 90px; }
-.about-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 70px; }
-.about-photo { display: block; width: 100%; aspect-ratio: 1.5; object-fit: cover; border-radius: 5px; }
-.about-copy p { margin: 18px 0; color: var(--muted); font-size: 12px; line-height: 1.85; }
-.about-points { display: grid; gap: 12px; margin: 22px 0; padding: 0; list-style: none; color: #31503c; font-size: 11px; font-weight: 650; }
-.about-points li { display: flex; align-items: center; gap: 10px; }
-.about-points li span { color: var(--green); font-size: 15px; font-weight: 800; }
+.about-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: 70px; }
+.about-visual { position: relative; width: 100%; min-width: 0; align-self: stretch; aspect-ratio: 1.05; overflow: hidden; border-radius: 5px; }
+/* Keep the artwork on the left of the supplied image; its right side contains baked-in copy. */
+.about-photo { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: left center; }
+.about-copy h2 span { color: var(--green); }
+.about-copy p { margin: 18px 0; color: #4f6558; font-size: 12px; line-height: 1.85; }
+.about-points { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin: 24px 0; padding: 0; list-style: none; }
+.about-copy h3 { margin: 0; color: var(--ink); font-size: 13px; line-height: 1.5; font-weight: 750; }
+.about-points li { padding-left: 12px; border-left: 2px solid #8cc9a2; }
+.about-points p, .about-purpose p { margin: 6px 0 0; line-height: 1.7; }
+.about-purpose { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-bottom: 24px; padding-top: 20px; border-top: 1px solid #c2d9c9; }
 .application-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .application { padding-top: 22px; border-top: 1px solid var(--line); }
 .application > span { color: var(--green); font-size: 22px; }
 .application h3 { margin: 15px 0 8px; color: var(--ink); font-size: 15px; font-weight: 750; }
 .application p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.8; }
 .contact-band { padding-block: 48px; background: linear-gradient(110deg, #eaf7e7, #f3fbf7); border-block: 1px solid var(--line); scroll-margin-top: 90px; }
-.contact-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-.contact-band h2 { margin: 10px 0; color: var(--ink); font-size: 28px; line-height: 1.3; font-weight: 750; }
-.contact-band p { margin: 0; color: var(--muted); font-size: 12px; }
+.contact-inner { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); align-items: center; gap: 36px; }
+.contact-band h2 { margin: 14px 0; color: var(--ink); font-size: clamp(28px, 3vw, 40px); line-height: 1.25; font-weight: 750; }
+.contact-band h2 span { color: var(--green); }
+.contact-band p { margin: 0; color: #4f6558; font-size: 13px; line-height: 1.8; }
+.contact-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-block: 24px; }
+.contact-card { min-width: 0; padding: 20px; background: #fff; border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 2px 8px #1833260a; }
+.contact-card h3 { margin: 4px 0 0; font-size: 16px; line-height: 1.5; }
+.contact-card .contact-label { display: block; margin: 0; color: var(--green); font-size: 12px; line-height: 1.6; font-weight: 750; }
+.contact-mobile { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.contact-card a { display: inline-flex; align-items: center; min-height: 44px; max-width: 100%; color: var(--ink); font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.contact-card a:hover { color: var(--green); }
+.contact-card address { margin-top: 8px; color: #4f6558; font-size: 13px; line-height: 1.7; font-style: normal; }
+.contact-band .contact-topics { margin-top: 18px; font-size: 11px; }
+.contact-visual { position: relative; width: 100%; min-width: 0; aspect-ratio: .6; overflow: hidden; border-radius: 8px; }
+/* Crop the supplied contact design to its building illustration, keeping details as live HTML. */
+.contact-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; }
 .site-footer { padding-block: 30px; }
 .footer-top { display: flex; align-items: center; justify-content: space-between; gap: 22px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
 .footer-links { display: flex; flex-wrap: wrap; gap: 22px; }
@@ -102,6 +120,12 @@
 @media (max-width: 1050px) { .container-shell { width: calc(100% - 56px); } .desktop-nav { gap: 13px; } .expertise-label { display: none; } .expertise-item { font-size: 10px; } .about-grid { gap: 42px; } }
 @media (max-width: 760px) {
   .container-shell { width: calc(100% - 40px); }
+  .about-grid { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+  .about-section { padding-block: 40px; }
+  .about-copy h2 { font-size: clamp(28px, 5vw, 35px); }
+  .contact-inner { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .contact-band { padding-block: 40px; }
+  .contact-visual { width: min(100%, 360px); justify-self: center; }
   .site-header { height: 76px; }
   .desktop-nav, .header-cta { display: none; }
   .mobile-toggle { width: 40px; height: 40px; display: grid; place-content: center; gap: 5px; background: transparent; border: 1px solid var(--line); border-radius: 4px; cursor: pointer; }
@@ -128,5 +152,6 @@
   .carousel-arrow { width: 31px; height: 31px; }
   .slide-count { font-size: 8px; }
 }
+@media (max-width: 480px) { .about-points, .about-purpose { grid-template-columns: minmax(0, 1fr); gap: 18px; } .contact-cards { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 390px) { .hero h1 { font-size: 39px; } .hero-actions { align-items: flex-start; flex-direction: column; } .button { width: fit-content; } }
 @media (prefers-reduced-motion: reduce) { .hero-track { transition: none; } *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
